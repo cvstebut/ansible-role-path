@@ -1,5 +1,7 @@
 # Ansible Role: Path
 
+[![Build Status](https://travis-ci.org/cvstebut/ansible-role-kubernetes.svg?branch=master)](https://travis-ci.org/cvstebut/ansible-role-path)
+
 A small Ansible Role that permanently sets a path by adding the required files to /etc/profile.d.
 
 ## Requirements
