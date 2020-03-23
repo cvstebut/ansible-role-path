@@ -1,38 +1,87 @@
-Role Name
-=========
+# Ansible Role: Path
 
-A brief description of the role goes here.
+A small Ansible Role that permanently sets a path by adding the required files to /etc/profile.d.
 
-Requirements
-------------
+## Requirements
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+None.
 
-Role Variables
---------------
+## Role Variables
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Available variables are listed below, along with default values (see `defaults/main.yml`):
 
-Dependencies
-------------
+    path_to_add:
+      - "/usr/local/bin"
+      - "/usr/local/go/bin"
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+path_to_add is a list of all paths to add to the system wide profile.
+The role will generate a path-specific script in /etc/profile.d (e.g. /etc/profile.d/usr_local_bin.sh) that adds the folder to the PATH variable.
 
-Example Playbook
-----------------
+## Dependencies
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+none
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
 
-License
--------
+## Example Playbook
 
-BSD
 
-Author Information
-------------------
+With path_to_add set - e.g. in a variable file like ./vars/testdata.yml:
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+```yaml
+---
+path_to_add:
+  - "/usr/local/bin"
+  - "~/.somename/bin"
+```
+
+the playbook would look like
+
+```yaml
+---
+- name: Converge
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Get test data - Include all vars from ./vars/*.yml
+      include_vars:
+        dir: vars
+        extensions:
+          - yml
+
+    - name: "Include role cvstebut.path"
+      include_role:
+        name: "cvstebut.path"
+```
+
+## Compatibility
+
+
+This role has been tested on these [container images](https://hub.docker.com/):
+
+|container|tags|
+|---------|----|
+|debian|9|
+|el|7, 8|
+|ubuntu|bionic, focal|
+
+The containers used were adapted images for ansible testing graciously provided by the Jeff Geerling aka the geerlingguy.
+(e.g. geerlingguy/docker-ubuntu2004-ansible. See ./molecule/default/molecule.yml for details.)
+
+The tests were done using Ansible 2.9 but should also run on lower versions.
+
+## License
+
+Apache 2
+
+## Author Information
+
+This role was created in 2020 by Christian von Stebut
+
+## Thanks
+
+Thanks to Jeff Geerling (geerlingguy) and Robert de Bock (robertdebock) for a lot of excellent roles and to be so kind to provide lots of samples to copy stuff from. 
+
+And a lot of thanks to Percy Grunwald for [a very nice video on Ansible and Testing](https://www.youtube.com/watch?v=DAnMyBZ8-Qs).
+
+All errors made are - of course - proudly owned by myself :-) <br>
+But even while making mistakes is part of learning, please contact me if you find any. I will be happy to learn about and correct them.

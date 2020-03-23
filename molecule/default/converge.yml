@@ -9,6 +9,6 @@
         extensions:
           - yml
 
-    - name: "Include cvstebut.path"
+    - name: "Include role cvstebut.path"
       include_role:
         name: "cvstebut.path"
