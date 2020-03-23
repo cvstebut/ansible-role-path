@@ -1,0 +1,14 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Get test data - Include all vars from ./vars/*.yml
+      include_vars:
+        dir: vars
+        extensions:
+          - yml
+
+    - name: "Include cvstebut.path"
+      include_role:
+        name: "cvstebut.path"

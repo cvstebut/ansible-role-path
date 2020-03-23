@@ -1,0 +1,10 @@
+---
+- name: Add script(s) to /etc/profile.d/ in order to include item in PATH
+  vars:
+    scriptname: "{{ item | regex_replace('^\\/', '') | replace('/','_') }}.sh"
+  template:
+    src: path_to_add.j2
+    dest: /etc/profile.d/{{ scriptname }}
+    mode: '0644'
+  loop: "{{ path_to_add }}"
+    

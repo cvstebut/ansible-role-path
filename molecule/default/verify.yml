@@ -1,0 +1,25 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: no
+
+  tasks:
+  - name: Get test data - Include all vars from ./vars/*.yml
+    include_vars:
+      dir: vars
+      extensions:
+        - yml
+
+  - name: 'Get PATH from host'
+    shell: /bin/bash -l -c 'echo $PATH'
+    register: pathvar
+    changed_when: False
+
+  - name: Print PATH from target to output
+    debug:
+      msg: "(target) PATH: {{ pathvar.stdout }}"
+    
+  - name: Assert entries of path_to_add are included in PATH
+    assert:
+      that: pathvar.stdout is search("{{ item }}")
+    loop: "{{ path_to_add }}"

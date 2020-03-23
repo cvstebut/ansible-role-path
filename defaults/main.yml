@@ -1,0 +1,5 @@
+---
+# defaults file for cvstebut.path
+#path_to_add:
+#  - "/usr/local/bin"
+#  - "/usr/local/go/bin"
